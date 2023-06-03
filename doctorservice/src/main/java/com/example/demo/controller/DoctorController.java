@@ -1,0 +1,52 @@
+package com.example.demo.controller;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.entity.DoctorEntity;
+import com.example.demo.repository.DoctorRepository;
+
+@RestController
+@RequestMapping("/doctor")
+public class DoctorController {
+
+	@Autowired
+	DoctorRepository drepo;
+
+	@GetMapping("/get")
+	public ResponseEntity<List<DoctorEntity>> getall() {
+		// return ResponseEntity<?>(drepo.findAll(),HttpStatus.OK);
+		return ResponseEntity.ok().body(drepo.findAll());
+	}
+
+	@GetMapping("/get/{id}")
+	public ResponseEntity<?> get(@PathVariable Long id) {
+		Optional<DoctorEntity> op = drepo.findById(id);
+		if (op.isPresent()) {
+			// return ResponseEntity.ok().body(op.get());
+			return new ResponseEntity<>(op.get(), HttpStatus.OK);
+
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			// return ResponseEntity.noContent().build();
+		}
+
+	}
+
+	@PostMapping("/create")
+	public ResponseEntity<?> create(@RequestBody DoctorEntity doctorentity) {
+		return new ResponseEntity<>(drepo.save(doctorentity), HttpStatus.CREATED);
+
+	}
+
+}

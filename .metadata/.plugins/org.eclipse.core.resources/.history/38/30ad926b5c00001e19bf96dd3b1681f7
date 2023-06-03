@@ -1,0 +1,14 @@
+package com.example.demo.interfaces;
+
+import java.util.List;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@FeignClient(value="feignclient" , url="https://localhost/doctor")
+public interface FeignInterface {
+	@GetMapping("/get")
+	public ResponseEntity<List<DoctorEntity>>getall();
+
+}

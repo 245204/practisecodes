@@ -1,0 +1,9 @@
+package com.example.demo.interfaces;
+
+import org.springframework.cloud.openfeign.FeignClient;
+
+@FeignClient(value="feignclient" , url="https://localhost/doctor")
+public interface FeignInterface {
+	
+
+}
